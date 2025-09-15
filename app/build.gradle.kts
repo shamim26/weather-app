@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.secret.gradle.plugin)
 }
 
 android {
@@ -39,6 +40,10 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+    secrets{
+        propertiesFileName = "secrets.properties"
     }
 }
 
