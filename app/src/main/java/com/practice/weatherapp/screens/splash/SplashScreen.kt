@@ -50,7 +50,6 @@ fun SplashScreen(navController: NavController) {
             .size(335.dp)
             .padding(1.dp),
         shape = CircleShape, border = BorderStroke(width = 2.dp, color = Color.LightGray),
-        color = MaterialTheme.colorScheme.primary
 
         ) {
         Column(
