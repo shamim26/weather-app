@@ -5,12 +5,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -20,17 +24,26 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.practice.weatherapp.R
+import com.practice.weatherapp.component.HumidityWindPressureRow
+import com.practice.weatherapp.component.SunRiseSunSetRow
+import com.practice.weatherapp.component.WeeklyWeatherForecast
 import com.practice.weatherapp.data.DataOrException
 import com.practice.weatherapp.model.Weather
+import com.practice.weatherapp.model.WeatherObject
 import com.practice.weatherapp.utils.formatDate
 import com.practice.weatherapp.utils.formatDateTime
+import com.practice.weatherapp.utils.formatDecimals
+import com.practice.weatherapp.utils.getDailyForecast
 import com.practice.weatherapp.widgets.SearchAppBar
 
 @Composable
@@ -41,7 +54,7 @@ fun MainScreen(
     val weatherData = produceState<DataOrException<Weather, Boolean, Exception>>(
         initialValue = DataOrException(loading = true),
     ) {
-        value = mainViewModel.getWeatherData("Rajshahi")
+        value = mainViewModel.getWeatherData("Dhaka")
     }.value
 
     if (weatherData.loading == true) {
@@ -117,5 +130,17 @@ fun MainContent(weather: Weather, innerPadding: PaddingValues) {
                 )
             }
         }
+        HumidityWindPressureRow(weather = weather)
+        HorizontalDivider()
+        SunRiseSunSetRow(weather = weather)
+        Text(
+            "This Week",
+            modifier = Modifier.padding(6.dp, bottom = 10.dp),
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center
+        )
+        WeeklyWeatherForecast(weather = weather)
     }
 }
+
+
